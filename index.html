@@ -46,7 +46,6 @@
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
 
-            /* --- この一行を追加 --- */
             pointer-events: none; /* 疑似要素がクリックイベントを妨げないようにする */
         }
 
@@ -67,6 +66,13 @@
             object-fit: contain; /* 画像がコンテナに収まるように調整 */
             transition: opacity 0.3s ease-in-out;
         }
+        
+        /* ▼▼▼ タイトルと説明文にアニメーション効果を追加 ▼▼▼ */
+        #work-title, #work-description {
+            transition: opacity 0.3s ease-in-out;
+        }
+        /* ▲▲▲ ここまで ▲▲▲ */
+
 
         /* Navigation arrows */
         .arrow {
@@ -87,11 +93,11 @@
         }
 
         .arrow-left {
-            left: -3.5rem;
+            left: -4rem;
         }
 
         .arrow-right {
-            right: -3.5rem;
+            right: -4rem;
         }
         
         /* Thumbnails for image switching */
@@ -124,15 +130,16 @@
         }
     </style>
 </head>
-<body class="bg-black text-white">
+<body class="bg-stone-800 text-white">
 
-    <!-- クラス指定は変更なし -->
-    <header class="w-full pt-4 pb-6 px-8 md:px-12 flex justify-between items-center fixed top-0 left-0 z-20">
-        <a href="index.html" class="text-4xl font-bold tracking-wider">幾何学立体展</a>
-        <a href="about.html" class="text-xl hover:text-gray-300 transition">About</a>
+    <!-- ▼▼▼ ここのクラス指定を justify-between items-center から items-baseline gap-x-8 に変更 ▼▼▼ -->
+    <header class="w-full pt-4 pb-8 px-8 md:px-12 flex justify-between items-center">
+        <a href="index.html" class="text-5xl font-bold tracking-wider">幾何学立体展</a>
+        <a href="about.html" class="text-2xl hover:text-gray-300 transition">サイトについて</a>
     </header>
 
-    <main id="portfolio" class="min-h-screen flex flex-col md:flex-row items-center justify-center p-4 md:p-8 pt-32 md:pt-24">
+    <!-- ▼▼▼ pt-24からpt-36に変更して間隔を調整 ▼▼▼ -->
+    <main id="portfolio" class="min-h-screen flex flex-col md:flex-row items-center md:items-start justify-center p-4 md:p-8 pt-32 md:pt-16">
         
         <!-- Left Side: Image Viewer -->
         <div class="w-full md:w-3/5 lg:w-1/2 flex-shrink-0 relative px-8 md:px-12">
@@ -210,8 +217,10 @@
                 
                 const work = worksData[index];
                 
-                // Fade out effect
+                // ▼▼▼ フェードアウト処理をタイトルと説明文にも適用 ▼▼▼
                 mainImage.style.opacity = 0;
+                workTitle.style.opacity = 0;
+                workDescription.style.opacity = 0;
 
                 setTimeout(() => {
                     // Update content
@@ -237,8 +246,10 @@
                         thumbnailContainer.appendChild(thumb);
                     });
                     
-                    // Fade in effect
+                    // ▼▼▼ フェードイン処理をタイトルと説明文にも適用 ▼▼▼
                     mainImage.style.opacity = 1;
+                    workTitle.style.opacity = 1;
+                    workDescription.style.opacity = 1;
 
                 }, 300); // Wait for fade out to complete
             }
