@@ -3,26 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - 幾何学立体展</title>
-    <!-- Tailwind CSS for styling -->
+    <title>幾何学立体展 | サイトについて</title>
+    <link rel="icon" href="data:image/svg+xml,<svg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'><path d='M 16 4 L 27 10 V 22 L 16 28 L 5 22 V 10 L 16 4 Z M 5 10 L 16 16 L 27 10 M 16 16 V 28' stroke='%23f3d773' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts for stylish font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles for the luxury feel */
         body {
             font-family: 'Noto Serif JP', serif;
-            background-color: #111;
+            background-image: linear-gradient(to bottom, #222, #111);
             color: #f0f0f0;
         }
 
-        /* --- index.htmlからコピーしたヘッダーのスタイル --- */
         header {
             position: relative; /* 疑似要素を配置する基準点として必要 */
-            background-color: #78431e; /* 指定された茶色 */
-            /* ヘッダーの下側両角を丸める */
+            background-image: linear-gradient(to bottom, #8a5a2e, #78431e);
             border-bottom-left-radius: 16px;
             border-bottom-right-radius: 16px;
         }
@@ -49,7 +45,6 @@
 
             pointer-events: none; /* 疑似要素がクリックイベントを妨げないようにする */
         }
-        /* --- ここまでヘッダーのスタイル --- */
 
         .icon-link svg {
             transition: fill 0.3s ease, transform 0.3s ease;
@@ -68,13 +63,15 @@
         <a href="about.html" class="text-2xl hover:text-gray-300 transition">サイトについて</a>
     </header>
 
-    <!-- ヘッダーとコンテンツが重ならないようにpadding-topを追加 -->
     <div class="min-h-screen flex justify-center pt-32 md:pt-10">
         <div class="max-w-2xl text-center p-8">
             <h1 class="text-4xl md:text-4xl font-bold mb-6">このサイトについて</h1>
             <p class="text-lg leading-relaxed text-gray-300 mb-12">
                 3DCGソフト「Blender」のGeometory Nodeというツールを用い、動的に生成した立体造形作品を紹介するサイトです。立体の持つ構造的な美しさや数学的な特徴について紹介していきます。
             </p>
+            <p class="text-lg leading-relaxed text-gray-300 mb-12">
+                また、説明文は殆ど独学による理解を元に作成しています。学術的に正しくない部分があるかもしれませんが、ご了承ください。
+            </p>          
 
             <div class="mb-12">
                 <h2 class="text-4xl md:text-4xl font-bold mb-4">制作者について</h2>
