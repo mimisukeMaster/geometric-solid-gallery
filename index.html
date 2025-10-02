@@ -14,13 +14,15 @@
         /* Custom styles for the luxury feel */
         body {
             font-family: 'Noto Serif JP', serif;
-            background-color: #111;
+            /* ▼▼▼ 背景色をグラデーションに変更 ▼▼▼ */
+            background-image: linear-gradient(to bottom, #2c2c2c, #000);
             color: #f0f0f0;
         }
 
         header {
             position: relative; /* 疑似要素を配置する基準点として必要 */
-            background-color: #78431e; /* 指定された茶色 */
+            /* ▼▼▼ 背景色をグラデーションに変更 ▼▼▼ */
+            background-image: linear-gradient(to bottom, #8a5a2e, #78431e);
             /* ヘッダーの下側両角を丸める */
             border-bottom-left-radius: 16px;
             border-bottom-right-radius: 16px;
@@ -132,13 +134,11 @@
 </head>
 <body class="bg-stone-800 text-white">
 
-    <!-- ▼▼▼ ここのクラス指定を justify-between items-center から items-baseline gap-x-8 に変更 ▼▼▼ -->
     <header class="w-full pt-4 pb-8 px-8 md:px-12 flex justify-between items-center">
         <a href="index.html" class="text-5xl font-bold tracking-wider">幾何学立体展</a>
         <a href="about.html" class="text-2xl hover:text-gray-300 transition">サイトについて</a>
     </header>
 
-    <!-- ▼▼▼ pt-24からpt-36に変更して間隔を調整 ▼▼▼ -->
     <main id="portfolio" class="min-h-screen flex flex-col md:flex-row items-center md:items-start justify-center p-4 md:p-8 pt-32 md:pt-16">
         
         <!-- Left Side: Image Viewer -->
