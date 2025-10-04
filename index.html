@@ -223,7 +223,7 @@
             const worksData = [
                 {
                     title: "ジャイロイド (Gyroid)",
-                    description: "ジャイロイドは、陰関数 sinxcosy + sinycosz + sinzcosx = 0 を3次元空間に表したものです。曲面によって分けられた空間同士は、どこまでも交わらないという特徴があります。この作品では、曲面に厚みをもたせるため関数に微小量を加えたものと元の差分を取っています。",
+                    description: "ジャイロイドは、陰関数 sinxcosy + sinycosz + sinzcosx = 0 を3次元空間に表したものです。曲面によって分けられた空間同士は、どこまでも交わらないという特徴があります。この作品では、曲面に厚みをもたせるため表面周辺のわずかな範囲も含めて描画するようにしています。",
                     images: [
                         { src: "images/work1/Gyroid.png", caption: "タイプ１" },
                         { src: "images/work1/Gyroid_glass.png", caption: "タイプ２" },
@@ -245,7 +245,7 @@
                 },
                 {
                     title: "アンビリック・トーラス (Umbilic Torus)",
-                    description: "辺と面がそれぞれ1つずつしか存在せず、面を辿っていくと元の場所に戻ってくるという不思議な構造をした立体です。立体の中心を原点に置いたとき、各座標の3成分をそれぞれ2つの媒介変数で表すことができます。有名な「メビウスの輪」に似ていますが、構造（トポロジー）が異なります。",
+                    description: "辺と面がそれぞれ1つずつしか存在せず、面を辿っていくと元の場所に戻ってくるという不思議な構造をした立体です。立体の中心を原点に置いたとき、各座標の3成分をそれぞれ2つの媒介変数で表すことができます。有名な「メビウスの輪」に似ていますが、構造（トポロジーにおける向き付け可能性）が異なります。",
                     images: [
                         { src: "images/work3/UmbilicTorus_03.jpg", caption: "タイプ１" },
                         { src: "images/work3/UmbilicTorus_04.jpg", caption: "タイプ２" },
@@ -253,6 +253,17 @@
                     ],
                     link: "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%B3%E3%83%93%E3%83%AA%E3%83%83%E3%82%AF%E3%83%BB%E3%83%88%E3%83%BC%E3%83%A9%E3%82%B9",
                     nodeImage: "images/work3/UmbilicTorus_node.png"
+                },
+                {
+                    title: "オロイド (Oloid)",
+                    description: "2つの円の凸包で形成された立体です。転がるとき全ての面が地面に接するという面白い性質を持っています。重心が上下するので、うねうねと移動するのも見ていて興味深いです。表面積は、合わさっている円と同じ半径を持つ球の表面積に等しくなります。",
+                    images: [
+                        { src: "images/work4/Oloid_01.png", caption: "タイプ１" },
+                        { src: "images/work4/Oloid_02.png", caption: "タイプ２" },
+                        { src: "images/work4/Oloid_02_wire.png", caption: "ワイヤーフレーム" },
+                    ],
+                    link: "https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%AD%E3%82%A4%E3%83%89",
+                    nodeImage: "images/work4/Oloid_node.png"
                 }
                 // --- 新しい作品は、この上に追加してください ---
             ];
@@ -439,4 +450,3 @@
     </script>
 </body>
 </html>
-
