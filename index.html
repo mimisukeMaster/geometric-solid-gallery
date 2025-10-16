@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>幾何学立体展</title>
+    <title>ホーム - 生成立体造形展</title>
     <!-- ▼▼▼ サイトアイコンのデザインを調整 ▼▼▼ -->
     <link rel="icon" href="data:image/svg+xml,<svg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'><path d='M 16 4 L 27 10 V 22 L 16 28 L 5 22 V 10 L 16 4 Z M 5 10 L 16 16 L 27 10 M 16 16 V 28' stroke='%23f3d773' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
     <!-- Tailwind CSS for styling -->
@@ -51,6 +51,15 @@
             border-bottom-right-radius: 10px;
 
             pointer-events: none; /* 疑似要素がクリックイベントを妨げないようにする */
+        }
+
+        .icon-link svg {
+            transition: fill 0.3s ease, transform 0.3s ease;
+            fill: #ffffff; /* text-gray-400 */
+        }
+        .icon-link:hover svg {
+            fill: #9ca3af; /* white */
+            transform: scale(1.1);
         }
 
         /* Main image container with aspect ratio */
@@ -161,8 +170,17 @@
 <body class="bg-stone-800 text-white">
 
     <header class="w-full pt-4 pb-8 px-8 md:px-12 flex justify-between items-center fixed top-0 left-0 z-20">
-        <a href="index.html" class="text-5xl font-bold tracking-wider">生成立体造形展</a>
-        <a href="about.html" class="text-2xl hover:text-gray-300 transition">サイトについて</a>
+        <!-- ▼▼▼ タイトルと概要リンクをグループ化 ▼▼▼ -->
+        <div class="flex items-center gap-10">
+            <a href="index.html" class="text-5xl font-bold tracking-wider">生成立体造形展</a>
+            <!-- ▼▼▼ ホバーエフェクト用のクラスを追加 ▼▼▼ -->
+            <a href="about.html" class="text-2xl hover:text-gray-300 transition duration-300 ease-in-out inline-block hover:scale-110">概要</a>
+        </div>
+        <a href="https://github.com/mimisukeMaster" target="_blank" rel="noopener noreferrer" class="icon-link" aria-label="GitHub profile">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+        </a>
     </header>
 
     <main id="portfolio" class="min-h-screen flex flex-wrap content-start justify-center p-4 md:p-8 pt-32 md:pt-40">
@@ -234,14 +252,14 @@
                 },
                 {
                     title: "メンガーのスポンジ (Menger Sponge)",
-                    description: "再帰的に処理を行っていくことで形成される、フラクタル構造をもった立体です。数学的には体積が0に収束し表面積は無限大に発散するという非常に面白い特徴を持っています。この作品では、描画時の処理を考慮して反復回数は4回に留めています。",
+                    description: "再帰的に処理を行っていくことで形成される、フラクタル構造をもった立体です。数学的には体積が0に収束し表面積は無限大に発散するという非常に面白い特徴を持っています。この作品では、描画時の処理を考慮して反復回数は5回に留めています。",
                     images: [
                         { src: "images/work2/MengerSponge_soft.jpg", caption: "タイプ１" },
                         { src: "images/work2/MengerSponge_hard.jpg", caption: "タイプ２" },
                         { src: "images/work2/MengerSponge_enlarged.jpg", caption :"拡大写真"}
                     ],
                     link: "https://ja.wikipedia.org/wiki/%E3%83%A1%E3%83%B3%E3%82%AC%E3%83%BC%E3%81%AE%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B8",
-                    nodeImage: "https://placehold.co/1200x400/000000/ffffff?text=Menger+Sponge+Node+Setup"
+                    nodeImage: "images/work2/MengerSponge_node.png"
                 },
                 {
                     title: "アンビリック・トーラス (Umbilic Torus)",
@@ -264,7 +282,18 @@
                     ],
                     link: "https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%AD%E3%82%A4%E3%83%89",
                     nodeImage: "images/work4/Oloid_node.png"
-                }
+                },
+                {
+                    title: "クレブシュ曲面 (Clebsch Surface)",
+                    description: "陰関数 x<sup>3</sup> + y<sup>3</sup> + z<sup>3</sup> + 1 - (x + y + z + 1)<sup>3</sup> = 0 で表される曲面です。曲面上に27本の直線が完全に含まれているという面白い特徴をもった構造をしています。ジャイロイドと同じく、曲面に厚みを持たせるため生成時に一部加工を施しています。",
+                    images: [
+                        { src: "images/work5/ClebschSurface_02.png", caption: "タイプ１" },
+                        { src: "images/work5/ClebschSurface_03.png", caption: "タイプ２" },
+                        { src: "images/work5/ClebschSurface_02_wire.png", caption: "ワイヤーフレーム" },
+                    ],
+                    link: "https://en.wikipedia.org/wiki/Clebsch_surface",
+                    nodeImage: "images/work5/ClebschSurface_node.png"
+                },
                 // --- 新しい作品は、この上に追加してください ---
             ];
 
@@ -315,7 +344,7 @@
                 setTimeout(() => {
                     // Update content
                     workTitle.textContent = work.title;
-                    workDescription.textContent = work.description;
+                    workDescription.innerHTML = work.description;
 
                     // Wikipedia Link
                     workLinkContainer.innerHTML = ''; // Clear previous link
@@ -450,3 +479,4 @@
     </script>
 </body>
 </html>
+
