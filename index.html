@@ -16,57 +16,55 @@
         /* Custom styles for the luxury feel */
         body {
             font-family: 'Noto Serif JP', serif;
-            /* ▼▼▼ 背景色をグラデーションに変更 ▼▼▼ */
-            background-image: linear-gradient(to bottom, #222, #111);
+            background-color: #111; /* アニメーションのベースカラー */
             color: #f0f0f0;
+        }
+        
+        /* ▼▼▼ 背景アニメーション用キャンバスのスタイル ▼▼▼ */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* コンテンツの背面に配置 */
         }
 
         header {
             position: relative; /* 疑似要素を配置する基準点として必要 */
-            /* ▼▼▼ 背景色をグラデーションに変更 ▼▼▼ */
             background-image: linear-gradient(to bottom, #8a5a2e, #78431e);
-            /* ヘッダーの下側両角を丸める */
             border-bottom-left-radius: 16px;
             border-bottom-right-radius: 16px;
         }
         
-        /* ヘッダーの内側にU字の破線を描画するための疑似要素 */
         header::after {
             content: '';
             position: absolute;
-            /* 破線のボックスを配置 */
             top: 0;
-            bottom: 5px; /* ヘッダー下端からの距離 */
-            left: 0.4rem;  /* ヘッダーの左右paddingに合わせる */
-            right: 0.4rem; /* ヘッダーの左右paddingに合わせる */
-            
-            /* 上以外の3辺に破線を設定 */
+            bottom: 5px;
+            left: 0.4rem;
+            right: 0.4rem;
             border-left: 2px dashed #f3d773;
             border-right: 2px dashed #f3d773;
             border-bottom: 2px dashed #f3d773;
             border-top: none;
-
-            /* 破線自体の角を丸める */
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
-
-            pointer-events: none; /* 疑似要素がクリックイベントを妨げないようにする */
+            pointer-events: none;
         }
 
         .icon-link svg {
             transition: fill 0.3s ease, transform 0.3s ease;
-            fill: #ffffff; /* text-gray-400 */
+            fill: #ffffff;
         }
         .icon-link:hover svg {
-            fill: #9ca3af; /* white */
+            fill: #9ca3af;
             transform: scale(1.1);
         }
 
-        /* Main image container with aspect ratio */
         .image-container {
             position: relative;
             width: 100%;
-            /* 16:9 Aspect Ratio */
             padding-top: 56.25%; 
         }
 
@@ -76,7 +74,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: contain; /* 画像がコンテナに収まるように調整 */
+            object-fit: contain;
             transition: opacity 0.3s ease-in-out;
         }
         
@@ -84,8 +82,6 @@
             transition: opacity 0.3s ease-in-out;
         }
 
-
-        /* Navigation arrows */
         .arrow {
             position: absolute;
             top: 50%;
@@ -94,7 +90,7 @@
             color: rgba(255, 255, 255, 0.5);
             cursor: pointer;
             transition: color 0.3s ease;
-            user-select: none; /* テキスト選択を防ぐ */
+            user-select: none;
             padding: 1rem;
             z-index: 10;
         }
@@ -111,11 +107,10 @@
             right: -4rem;
         }
         
-        /* Thumbnails for image switching */
         .thumbnail-container {
             display: flex;
-            gap: 0.75rem; /* 12px */
-            margin-top: 1rem; /* 16px */
+            gap: 0.75rem;
+            margin-top: 1rem;
             justify-content: center;
         }
         
@@ -140,7 +135,6 @@
             opacity: 1;
         }
         
-        /* ▼▼▼ 丸印（ページネーション）のスタイル ▼▼▼ */
         .pagination-dot {
             width: 10px;
             height: 10px;
@@ -152,7 +146,6 @@
             background-color: #f3d773;
         }
 
-        /* ▼▼▼ モーダルと拡大表示用のスタイル ▼▼▼ */
         #node-image {
             cursor: zoom-in;
         }
@@ -169,11 +162,11 @@
 </head>
 <body class="bg-stone-800 text-white">
 
+    <canvas id="bg-canvas"></canvas>
+
     <header class="w-full pt-4 pb-8 px-8 md:px-12 flex justify-between items-center fixed top-0 left-0 z-20">
-        <!-- ▼▼▼ タイトルと概要リンクをグループ化 ▼▼▼ -->
         <div class="flex items-center gap-10">
             <a href="index.html" class="text-5xl font-bold tracking-wider">生成立体造形展</a>
-            <!-- ▼▼▼ ホバーエフェクト用のクラスを追加 ▼▼▼ -->
             <a href="about.html" class="text-2xl hover:text-gray-300 transition duration-300 ease-in-out inline-block hover:scale-110">概要</a>
         </div>
         <a href="https://github.com/mimisukeMaster" target="_blank" rel="noopener noreferrer" class="icon-link" aria-label="GitHub profile">
@@ -183,41 +176,27 @@
         </a>
     </header>
 
-    <main id="portfolio" class="min-h-screen flex flex-wrap content-start justify-center p-4 md:p-8 pt-32 md:pt-40">
+    <main id="portfolio" class="flex flex-wrap content-start justify-center p-4 md:p-8 pt-32 md:pt-40 pb-16">
         
-        <!-- Left Side: Image Viewer -->
         <div class="w-full md:w-3/5 lg:w-1/2 flex-shrink-0 relative px-8 md:px-12">
             <div id="image-viewer" class="relative">
                 <div class="image-container bg-black rounded-lg">
                     <img id="main-image" src="" alt="Main artwork image" class="main-image rounded-lg">
                 </div>
-
-                <!-- Work Navigation Arrows -->
                 <div id="prev-work" class="arrow arrow-left">◀</div>
                 <div id="next-work" class="arrow arrow-right">▶</div>
             </div>
-             <!-- Image Thumbnails -->
-            <div id="thumbnail-container" class="thumbnail-container">
-                <!-- Thumbnails will be generated by JavaScript -->
-            </div>
-            <!-- ▼▼▼ 丸印（ページネーション）を表示するエリア ▼▼▼ -->
-            <div id="pagination-dots" class="flex justify-center items-center gap-3 mt-4 h-6">
-                <!-- Dots will be generated by JavaScript -->
-            </div>
+            <div id="thumbnail-container" class="thumbnail-container"></div>
+            <div id="pagination-dots" class="flex justify-center items-center gap-3 mt-4 h-6"></div>
             <p id="image-caption" class="text-center text-gray-400 h-6"></p>
         </div>
 
-        <!-- Right Side: Title & Description -->
         <div class="w-full md:w-2/5 lg:w-1/3 mt-8 md:mt-0 md:pl-8">
             <h1 id="work-title" class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4"></h1>
             <p id="work-description" class="text-base leading-relaxed text-gray-300"></p>
-            <!-- ▼▼▼ Wikipediaリンクを表示するコンテナ ▼▼▼ -->
-            <div id="work-link-container" class="mt-6">
-                <!-- Link will be generated by JavaScript -->
-            </div>
+            <div id="work-link-container" class="mt-6"></div>
         </div>
 
-        <!-- ▼▼▼ Geometry Node Section ▼▼▼ -->
         <div id="node-section" class="w-full lg:w-10/12 xl:w-3/4 mt-16 px-8 md:px-12">
             <h2 class="text-2xl font-bold mb-4 text-gray-300">この作品を構成するジオメトリノード</h2>
             <p class="text-base leading-relaxed text-gray-300 pb-1">🔍クリックで拡大</p>
@@ -225,22 +204,20 @@
                 <img id="node-image" src="" alt="Geometry Node setup for the artwork" class="w-full h-auto rounded-md">
             </div>
         </div>
-
     </main>
 
-    <!-- ▼▼▼ Fullscreen Image Modal ▼▼▼ -->
     <div id="modal" class="hidden fixed top-0 left-0 z-50 w-full h-full bg-black/90 flex items-center justify-center">
         <span id="modal-close" class="absolute top-5 right-8 text-white text-5xl font-bold cursor-pointer hover:text-gray-400 transition-colors">&times;</span>
         <img id="modal-image" src="" alt="Enlarged geometry node setup" class="max-w-[90%] max-h-[90%] object-contain">
     </div>
 
-    <footer class="p-4 text-gray-400 text-center">
+    <footer class="bg-stone-900 p-4 text-gray-400 pt-8 text-center">
         © 2025 mimisukeMaster. All Rights Reserved.
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- 作品データをここに追加・編集してください ---
+            // --- 作品データ ---------------------------------
             const worksData = [
                 {
                     title: "ジャイロイド (Gyroid)",
@@ -297,10 +274,9 @@
                     link: "https://en.wikipedia.org/wiki/Clebsch_surface",
                     nodeImage: "images/work5/ClebschSurface_node.png"
                 },
-                // --- 新しい作品は、この上に追加してください ---
             ];
 
-            // DOM Elements
+            // --- DOM要素取得 -------------------------------
             const mainImage = document.getElementById('main-image');
             const workTitle = document.getElementById('work-title');
             const workDescription = document.getElementById('work-description');
@@ -316,55 +292,42 @@
             const modalImage = document.getElementById('modal-image');
             const modalClose = document.getElementById('modal-close');
             
-            // State
             let currentWorkIndex = 0;
 
-            // ▼▼▼ 丸印（ページネーション）を初期生成する処理 ▼▼▼
+            // --- 初期化処理 -------------------------------
             worksData.forEach((_, index) => {
                 const dot = document.createElement('div');
                 dot.classList.add('pagination-dot');
                 paginationDots.appendChild(dot);
             });
 
-            // Functions
+            // --- 関数定義 ----------------------------------
             function loadWork(index) {
                 if (index < 0 || index >= worksData.length) return;
-                
+                currentWorkIndex = index;
                 const work = worksData[index];
 
-                // ▼▼▼ 丸印のアクティブ状態を更新 ▼▼▼
                 Array.from(paginationDots.children).forEach((dot, dotIndex) => {
                     dot.classList.toggle('active', dotIndex === index);
                 });
                 
-                mainImage.style.opacity = 0;
-                workTitle.style.opacity = 0;
-                workDescription.style.opacity = 0;
-                imageCaption.style.opacity = 0;
-                workLinkContainer.style.opacity = 0;
-                nodeSection.style.opacity = 0;
+                [mainImage, workTitle, workDescription, imageCaption, workLinkContainer, nodeSection].forEach(el => el.style.opacity = 0);
 
                 setTimeout(() => {
-                    // Update content
                     workTitle.textContent = work.title;
                     workDescription.innerHTML = work.description;
 
-                    // Wikipedia Link
-                    workLinkContainer.innerHTML = ''; // Clear previous link
+                    workLinkContainer.innerHTML = '';
                     if (work.link) {
                         const linkEl = document.createElement('a');
                         linkEl.href = work.link;
                         linkEl.target = '_blank';
                         linkEl.rel = 'noopener noreferrer';
                         linkEl.className = 'inline-flex items-center gap-2 text-gray-300 hover:text-white transition-colors';
-                        linkEl.innerHTML = `
-                            <span class="text-lg"><u>もっと知る (Wikipedia)</u></span>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg" alt="Wikipedia Logo" width="30">
-                        `;
+                        linkEl.innerHTML = `<span class="text-lg"><u>もっと知る (Wikipedia)</u></span><img src="https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg" alt="Wikipedia Logo" width="30">`;
                         workLinkContainer.appendChild(linkEl);
                     }
 
-                    // Geometry Node Image
                     if (work.nodeImage) {
                         nodeImage.src = work.nodeImage;
                         nodeSection.style.display = 'block';
@@ -372,69 +335,43 @@
                         nodeSection.style.display = 'none';
                     }
 
-
-                    // Load first image of the work
                     mainImage.src = work.images[0].src;
                     imageCaption.textContent = work.images[0].caption || '';
                     mainImage.alt = work.title;
 
-                    // Generate thumbnails
-                    thumbnailContainer.innerHTML = ''; // Clear previous thumbnails
+                    thumbnailContainer.innerHTML = '';
                     work.images.forEach((imageObj, imgIndex) => {
                         const thumb = document.createElement('img');
                         thumb.src = imageObj.src;
                         thumb.classList.add('thumbnail');
-                        if (imgIndex === 0) {
-                            thumb.classList.add('active');
-                        }
-                        thumb.addEventListener('click', () => {
-                            switchImage(imageObj, thumb);
-                        });
+                        if (imgIndex === 0) thumb.classList.add('active');
+                        thumb.addEventListener('click', () => switchImage(imageObj, thumb));
                         thumbnailContainer.appendChild(thumb);
                     });
                     
-                    mainImage.style.opacity = 1;
-                    workTitle.style.opacity = 1;
-                    workDescription.style.opacity = 1;
-                    imageCaption.style.opacity = 1;
-                    workLinkContainer.style.opacity = 1;
-                    nodeSection.style.opacity = 1;
-
-                }, 300); // Wait for fade out to complete
+                    [mainImage, workTitle, workDescription, imageCaption, workLinkContainer, nodeSection].forEach(el => el.style.opacity = 1);
+                }, 300);
             }
 
             function switchImage(imageObj, activeThumb) {
-                // Fade out
-                mainImage.style.opacity = 0;
-                imageCaption.style.opacity = 0;
-                
+                [mainImage, imageCaption].forEach(el => el.style.opacity = 0);
                 setTimeout(() => {
                     mainImage.src = imageObj.src;
                     imageCaption.textContent = imageObj.caption || '';
-                    // Update active thumbnail
                     document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
                     activeThumb.classList.add('active');
-                    // Fade in
-                    mainImage.style.opacity = 1;
-                    imageCaption.style.opacity = 1;
+                    [mainImage, imageCaption].forEach(el => el.style.opacity = 1);
                 }, 150);
             }
 
-            function showNextWork() {
-                currentWorkIndex = (currentWorkIndex + 1) % worksData.length;
-                loadWork(currentWorkIndex);
-            }
-
-            function showPrevWork() {
-                currentWorkIndex = (currentWorkIndex - 1 + worksData.length) % worksData.length;
-                loadWork(currentWorkIndex);
-            }
-
-            // --- ▼▼▼ Event Listeners for Modal ▼▼▼ ---
-
+            function showNextWork() { loadWork((currentWorkIndex + 1) % worksData.length); }
+            function showPrevWork() { loadWork((currentWorkIndex - 1 + worksData.length) % worksData.length); }
+            
+            // --- モーダル関連の関数とイベントリスナー ---
             function closeModal() {
                 modal.classList.add('hidden');
                 modalImage.classList.remove('zoomed');
+                modalImage.style.transform = 'scale(1)';
                 modalImage.style.transformOrigin = 'center center';
             }
 
@@ -444,40 +381,127 @@
             });
 
             modalClose.addEventListener('click', closeModal);
-
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModal();
-                }
-            });
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                    closeModal();
-                }
-            });
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
 
             modalImage.addEventListener('dblclick', function(e) {
-                if (this.classList.contains('zoomed')) {
-                    this.classList.remove('zoomed');
-                    this.style.transformOrigin = 'center center';
-                } else {
+                if (this.classList.toggle('zoomed')) {
                     const rect = this.getBoundingClientRect();
                     const x = ((e.clientX - rect.left) / rect.width) * 100;
                     const y = ((e.clientY - rect.top) / rect.height) * 100;
                     this.style.transformOrigin = `${x}% ${y}%`;
-                    this.classList.add('zoomed');
+                } else {
+                    this.style.transformOrigin = 'center center';
                 }
             });
 
-            // --- ▲▲▲ End of Modal Listeners ▲▲▲ ---
-
-            // Event Listeners
+            // --- メインのイベントリスナー ---
             nextWorkBtn.addEventListener('click', showNextWork);
             prevWorkBtn.addEventListener('click', showPrevWork);
 
-            // Initial Load
+            // --- 初期読み込み ---
             loadWork(currentWorkIndex);
+
+            // --- ▼▼▼ 背景アニメーションのコード（ハニカム模様） ▼▼▼ ---
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            let hexagons = [];
+            let ripples = [];
+            let width, height;
+            const hexRadius = 20; // ハニカムのサイズ
+            const hexWidth = Math.sqrt(3) * hexRadius;
+            const hexHeight = 2 * hexRadius;
+
+            function initHoneycomb() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+                hexagons = [];
+                
+                const vertSpacing = hexHeight * 3 / 4;
+                const numCols = Math.ceil(width / hexWidth) + 2;
+                const numRows = Math.ceil(height / vertSpacing) + 2;
+
+                for (let row = -1; row < numRows; row++) {
+                    for (let col = -1; col < numCols; col++) {
+                        const x = col * hexWidth + (row % 2) * (hexWidth / 2);
+                        const y = row * vertSpacing;
+                        hexagons.push({ x, y });
+                    }
+                }
+            }
+
+            function drawHexagon(x, y, color) {
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    const angle = (Math.PI / 3) * i + Math.PI / 6;
+                    const hx = x + hexRadius * Math.cos(angle);
+                    const hy = y + hexRadius * Math.sin(angle);
+                    if (i === 0) {
+                        ctx.moveTo(hx, hy);
+                    } else {
+                        ctx.lineTo(hx, hy);
+                    }
+                }
+                ctx.closePath();
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 1; // 線の太さを変更
+                ctx.stroke();
+            }
+
+            function animateHoneycomb() {
+                ctx.clearRect(0, 0, width, height);
+
+                hexagons.forEach(hex => {
+                    let maxBrightness = 0;
+                    ripples.forEach(ripple => {
+                        const dist = Math.sqrt(Math.pow(hex.x - ripple.x, 2) + Math.pow(hex.y - ripple.y, 2));
+                        const waveWidth = 50; // 波の幅
+                        const brightness = Math.max(0, 1 - Math.abs(dist - ripple.radius) / waveWidth) * ripple.opacity;
+                        if (brightness > maxBrightness) {
+                            maxBrightness = brightness;
+                        }
+                    });
+
+                    // ベースカラー: 少し明るいグレー
+                    const baseR = 30, baseG = 30, baseB = 30;
+                    // ハイライトカラー: 白に近いグレー
+                    const highR = 220, highG = 220, highB = 220;
+                    
+                    const r = Math.floor(baseR + (highR - baseR) * maxBrightness);
+                    const g = Math.floor(baseG + (highG - baseG) * maxBrightness);
+                    const b = Math.floor(baseB + (highB - baseB) * maxBrightness);
+
+                    drawHexagon(hex.x, hex.y, `rgb(${r}, ${g}, ${b})`);
+                });
+
+                for (let i = ripples.length - 1; i >= 0; i--) {
+                    const ripple = ripples[i];
+                    ripple.radius += 8; // 波の広がる速度
+                    ripple.opacity -= 0.05; // 波紋をフェードアウトさせる
+
+                    if (ripple.opacity <= 0) {
+                        ripples.splice(i, 1); // 透明になった波紋を安全に削除
+                    }
+                }
+
+                requestAnimationFrame(animateHoneycomb);
+            }
+            
+            // ページクリックで波紋を生成
+            window.addEventListener('click', (e) => {
+                ripples.push({
+                    x: e.clientX,
+                    y: e.clientY,
+                    radius: 0,
+                    opacity: 1,
+                });
+            });
+
+            window.addEventListener('resize', initHoneycomb);
+            initHoneycomb();
+            animateHoneycomb();
         });
     </script>
 </body>
