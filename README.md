@@ -15,7 +15,7 @@ This is a gallery site where you can appreciate mathematical and geometric solid
 このサイトは、Blenderのジオメトリノードを用いて動的に生成した立体造形作品を紹介するものです。
 作品の持つ構造的な美しさや、背景にある数学的な特徴について、Wikipediaへのリンクと共に解説しています。
 
-また、各作品を生成するために実際に組んだジオメトリノードの構成も公開しており、誰でも同じ立体を再現できるようになっています。
+各立体作品の形状は、3Dビューワーで三次元的にに確認できるようになっています。また、生成するために実際に組んだジオメトリノードの構成も公開しており、誰でも同じ立体を再現できるようになっています。
 
 ## Demo
 
@@ -23,8 +23,9 @@ This is a gallery site where you can appreciate mathematical and geometric solid
 
 ## Features
 
-- インタラクティブなギャラリー: 作品の画像をクリックで切り替えたり、前後の作品に移動したりできます。また、ノード画像は拡大操作をすることができます。
+- インタラクティブなギャラリー: 作品の画像をクリックで切り替えたり、前後の作品に移動したりできます。また、3Dビューワーでの各立体の視点操作、ノード画像の拡大操作ができます。
 - 作品解説: 各立体の特徴や、元となる数式についての簡単な解説を掲載しています。
+- 3Dビューワーモード: Three.jsを用いて、立体の360°回転、拡大、縮小が行えます。
 - ジオメトリノード表示: 作品の生成に使用したノード構成を画像で確認できます。
 - レスポンシブデザイン: デスクトップ、タブレット、モバイルなど、様々なデバイスで閲覧できます。
 - 背景アニメーション: Canvas APIを利用した、インタラクティブなハニカム模様の背景アニメーション。
@@ -42,11 +43,11 @@ This is a gallery site where you can appreciate mathematical and geometric solid
 ## Technologies Used
 - フロントエンド (Frontend): 
 
-    <img src="https://img.shields.io/badge/-HTML-333.svg?logo=html5&style=flat"> <img src="https://img.shields.io/badge/-CSS-1572B6.svg?logo=html&style=flat"> <img src="https://img.shields.io/badge/Javascript-276DC3.svg?logo=javascript&style=flat">
+    <img src="https://img.shields.io/badge/-HTML-333.svg?logo=html5&style=flat"> <img src="https://img.shields.io/badge/-CSS-ff69b4.svg?logo=html&style=flat"> <img src="https://img.shields.io/badge/Javascript-276DC3.svg?logo=javascript&style=flat">
 
 - フレームワーク・ライブラリ (Frameworks/Libraries):
 
-    <img src="https://img.shields.io/badge/-Tailwind CSS-33339F.svg?logo=Tailwindcss&style=flat"> <img src="https://img.shields.io/badge/-Google Fonts-dddddd.svg?logo=googlefonts&style=flat">
+    <img src="https://img.shields.io/badge/-Tailwind CSS-33339F.svg?logo=Tailwindcss&style=flat"> <img src="https://img.shields.io/badge/-Google Fonts-e0ffff.svg?logo=googlefonts&style=flat"> <img src="https://img.shields.io/badge/-Three.js-fff.svg?logo=three.js&logoColor=black&style=flat">
 - 作品制作 (Artwork):
 
     <img src="https://img.shields.io/badge/-Blender-2b4b9a.svg?logo=Blender&style=flat">
