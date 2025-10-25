@@ -222,12 +222,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // カメラ設定
             camera = new THREE.PerspectiveCamera(
-                50, viewerCanvas.clientWidth / viewerCanvas.clientHeight, 0.1, 1000);
+                50, window.innerWidth / window.innerHeight, 0.1, 1000);
             camera.position.z = 10;
 
             // レンダラー設定
             renderer = new THREE.WebGLRenderer({ canvas: viewerCanvas, antialias: true, alpha: true });
-            renderer.setSize(viewerCanvas.clientWidth, viewerCanvas.clientHeight);
+            renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
 
             // ライト設定
@@ -240,11 +240,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // モデルを保持するグループ
             modelGroup = new THREE.Group();
             scene.add(modelGroup);
-
-            // 視点操作のための変数
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true; // 滑らかに動くようにする
-            controls.dampingFactor = 0.05;
         }
 
         // モデル読込
@@ -303,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
             requestAnimationFrame(animateViewer);
 
             // OrbitControlsを更新
-            controls.update();
+            if (controls) controls.update();
 
             renderer.render(scene, camera);
         }
@@ -314,12 +309,26 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!renderer) {
                 initThree();
             }
+
+            // キャンバスの表示サイズを取得
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
             // レンダラーのサイズを更新
-            renderer.setSize(viewerCanvas.clientWidth, viewerCanvas.clientHeight);
-            camera.aspect = viewerCanvas.clientWidth / viewerCanvas.clientHeight;
+            renderer.setSize(width, height);
+
+            // カメラのアスペクト比を更新
+            camera.aspect = width / height;
             camera.updateProjectionMatrix();
-            
-            controls.reset(); // カメラ位置をリセット
+        
+            if (!controls) {
+                // 初回のみ初期化
+                controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true; // 滑らかに動くようにする
+                controls.dampingFactor = 0.05;
+            } else {
+                controls.reset(); // 2回目以降はカメラ位置をリセット
+            }
             modelGroup.rotation.set(0, 0, 0); // モデルの回転をリセット
             
             loadModel(modelPath);
