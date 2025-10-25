@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             {
                 title: "メンガーのスポンジ (Menger Sponge)",
-                description: "再帰的に処理を行っていくことで形成される、フラクタル構造をもった立体です。数学的には体積が0に収束し表面積は無限大に発散するという非常に面白い特徴を持っています。この作品では、描画時の処理を考慮して反復回数は5回に留めています。",
+                description: "再帰的に処理を行っていくことで形成される、フラクタル構造をもった立体です。数学的には体積が0に収束し表面積は無限大に発散するという非常に面白い特徴を持っています。この作品では、描画時の処理を考慮して反復回数は5回に留めています。<br>申し訳ありませんが、描画の負荷が重く「3Dで見る」は使用できません。",
                 images: [
                     { src: "images/work2/MengerSponge_soft.jpg", caption: "タイプ１" },
                     { src: "images/work2/MengerSponge_hard.jpg", caption: "タイプ２" },
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ],
                 link: "https://ja.wikipedia.org/wiki/%E3%83%A1%E3%83%B3%E3%82%AC%E3%83%BC%E3%81%AE%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B8",
                 nodeImage: "images/work2/MengerSponge_node.png",
-                model: "models/work2/MengerSponge.glb"
+                model: null
             },
             {
                 title: "アンビリック・トーラス (Umbilic Torus)",
@@ -116,8 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 workTitle.textContent = work.title;
                 workDescription.innerHTML = work.description;
 
-                view3DButton.onclick = () => openViewerModal(work.model);
-                work3DButtonContainer.style.display = 'block';
+                if (work.model != null) {
+                    view3DButton.onclick = () => openViewerModal(work.model);
+                    work3DButtonContainer.style.display = 'block';
+                }
+                else work3DButtonContainer.style.display = 'none';
 
                 workLinkContainer.innerHTML = '';
                 const linkEl = document.createElement('a');
