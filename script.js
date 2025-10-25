@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadWork(currentWorkIndex);
 
         // Three.jsを用いた3Dビューワー設定の準備
-        let scene, camera, renderer, modelGroup, targetRotation, currentRotation, isMouseDown;
+        let scene, camera, renderer, modelGroup, controls;
 
         // 初期設定
         function initThree() {
@@ -231,8 +231,8 @@ document.addEventListener('DOMContentLoaded', () => {
             renderer.setPixelRatio(window.devicePixelRatio);
 
             // ライト設定
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-            scene.add(ambientLight);
+            const hemisphereLight = new THREE.HemisphereLight( 0xffffff, 0xbbbbbb, 0.9 );
+            scene.add(hemisphereLight);
             const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
             directionalLight.position.set(10, 10, 7.5);
             scene.add(directionalLight);
@@ -241,10 +241,10 @@ document.addEventListener('DOMContentLoaded', () => {
             modelGroup = new THREE.Group();
             scene.add(modelGroup);
 
-            // バネ挙動のための変数
-            targetRotation = { x: 0, y: 0 };
-            currentRotation = { x: 0, y: 0 };
-            isMouseDown = false;
+            // 視点操作のための変数
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true; // 滑らかに動くようにする
+            controls.dampingFactor = 0.05;
         }
 
         // モデル読込
@@ -302,18 +302,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             requestAnimationFrame(animateViewer);
 
-            // バネのようなカメラ挙動
-            // 目標の回転を徐々に0に戻す
-            targetRotation.x += (0 - targetRotation.x) * 0.1; // 戻る強さ0.1
-            targetRotation.y += (0 - targetRotation.y) * 0.1;
-
-            // 現在の回転を目標の回転に追従
-            currentRotation.x += (targetRotation.x - currentRotation.x) * 0.2; // 追従の滑らかさ0.2
-            currentRotation.y += (targetRotation.y - currentRotation.y) * 0.2;
-
-            // モデルグループに回転を適用
-            modelGroup.rotation.y = currentRotation.y;
-            modelGroup.rotation.x = currentRotation.x;
+            // OrbitControlsを更新
+            controls.update();
 
             renderer.render(scene, camera);
         }
@@ -328,7 +318,10 @@ document.addEventListener('DOMContentLoaded', () => {
             renderer.setSize(viewerCanvas.clientWidth, viewerCanvas.clientHeight);
             camera.aspect = viewerCanvas.clientWidth / viewerCanvas.clientHeight;
             camera.updateProjectionMatrix();
-
+            
+            controls.reset(); // カメラ位置をリセット
+            modelGroup.rotation.set(0, 0, 0); // モデルの回転をリセット
+            
             loadModel(modelPath);
             animateViewer();
         }
@@ -340,30 +333,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         viewerClose.addEventListener('click', closeViewerModal);
-
-        // バネ挙動のイベントリスナー
-        let lastMousePos = { x: 0, y: 0 };
-        viewerCanvas.addEventListener('mousedown', (e) => {
-            isMouseDown = true;
-            lastMousePos = { x: e.clientX, y: e.clientY };
-        });
-        viewerCanvas.addEventListener('mouseup', () => {
-            isMouseDown = false;
-        });
-        viewerCanvas.addEventListener('mouseleave', () => {
-            isMouseDown = false;
-        });
-        viewerCanvas.addEventListener('mousemove', (e) => {
-            if (!isMouseDown) return;
-            const deltaX = e.clientX - lastMousePos.x;
-            const deltaY = e.clientY - lastMousePos.y;
-
-            // 移動量をそのまま目標回転に追加（減衰はanimateループ）
-            targetRotation.y += deltaX * 0.01;
-            targetRotation.x += deltaY * 0.01;
-
-            lastMousePos = { x: e.clientX, y: e.clientY };
-        });
     }
 
     // 背景アニメーション
