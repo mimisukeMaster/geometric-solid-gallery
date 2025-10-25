@@ -147,7 +147,43 @@ header::after {
     transform-origin: center center;
     cursor: zoom-out;
 }
+
 #modal-image.zoomed {
     transform: scale(2.5);
     cursor: grab;
+}
+
+.view-3d-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #f3d773;
+    color: #111;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 2px solid #f3d773;
+}
+
+.view-3d-button svg {
+    stroke: #111; 
+    transition: stroke 0.3s ease;
+}
+
+.view-3d-button:hover {
+    background-color: transparent;
+    color: #f3d773;
+}
+
+.view-3d-button:hover svg {
+    stroke: #f3d773;
+}
+
+#viewer-canvas {
+    cursor: grab;
+}
+
+#viewer-canvas:active {
+    cursor: grabbing;
 }
