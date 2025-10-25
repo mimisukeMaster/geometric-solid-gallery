@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const portfolio = document.getElementById('portfolio');
+    let modal, viewerModal;
 
     // index.htmlにのみ反映させる処理
     if (portfolio) {
@@ -15,18 +16,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     { src: "images/work1/Gyroid_wireframe.png", caption: "ワイヤーフレーム" },
                 ],
                 link: "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%AD%E3%82%A4%E3%83%89",
-                nodeImage: "images/work1/Gyroid_node.png"
+                nodeImage: "images/work1/Gyroid_node.png",
+                model: "models/work1/Gyroid.glb"
             },
             {
                 title: "メンガーのスポンジ (Menger Sponge)",
-                description: "再帰的に処理を行っていくことで形成される、フラクタル構造をもった立体です。数学的には体積が0に収束し表面積は無限大に発散するという非常に面白い特徴を持っています。この作品では、描画時の処理を考慮して反復回数は5回に留めています。",
+                description: "再帰的に処理を行っていくことで形成される、フラクタル構造をもった立体です。数学的には体積が0に収束し表面積は無限大に発散するという非常に面白い特徴を持っています。この作品では、描画時の処理を考慮して反復回数は5回に留めています。<br>申し訳ありませんが、描画の負荷が重く「3Dで見る」は使用できません。",
                 images: [
                     { src: "images/work2/MengerSponge_soft.jpg", caption: "タイプ１" },
                     { src: "images/work2/MengerSponge_hard.jpg", caption: "タイプ２" },
                     { src: "images/work2/MengerSponge_enlarged.jpg", caption :"拡大写真"}
                 ],
                 link: "https://ja.wikipedia.org/wiki/%E3%83%A1%E3%83%B3%E3%82%AC%E3%83%BC%E3%81%AE%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B8",
-                nodeImage: "images/work2/MengerSponge_node.png"
+                nodeImage: "images/work2/MengerSponge_node.png",
+                model: null
             },
             {
                 title: "アンビリック・トーラス (Umbilic Torus)",
@@ -37,7 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     { src: "images/work3/UmbilicTorus_03_wire.png", caption: "ワイヤーフレーム" },
                 ],
                 link: "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%B3%E3%83%93%E3%83%AA%E3%83%83%E3%82%AF%E3%83%BB%E3%83%88%E3%83%BC%E3%83%A9%E3%82%B9",
-                nodeImage: "images/work3/UmbilicTorus_node.png"
+                nodeImage: "images/work3/UmbilicTorus_node.png",
+                model: "models/work3/UmbilicTorus.glb"
             },
             {
                 title: "オロイド (Oloid)",
@@ -48,7 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     { src: "images/work4/Oloid_02_wire.png", caption: "ワイヤーフレーム" },
                 ],
                 link: "https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%AD%E3%82%A4%E3%83%89",
-                nodeImage: "images/work4/Oloid_node.png"
+                nodeImage: "images/work4/Oloid_node.png",
+                model: "models/work4/Oloid.glb"
             },
             {
                 title: "クレブシュ曲面 (Clebsch Surface)",
@@ -59,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     { src: "images/work5/ClebschSurface_02_wire.png", caption: "ワイヤーフレーム" },
                 ],
                 link: "https://en.wikipedia.org/wiki/Clebsch_surface",
-                nodeImage: "images/work5/ClebschSurface_node.png"
+                nodeImage: "images/work5/ClebschSurface_node.png",
+                model: "models/work5/ClebschSurface.glb"
             },
         ];
 
@@ -75,9 +81,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const nodeImage = document.getElementById('node-image');
         const prevWorkBtn = document.getElementById('prev-work');
         const nextWorkBtn = document.getElementById('next-work');
-        const modal = document.getElementById('modal');
         const modalImage = document.getElementById('modal-image');
         const modalClose = document.getElementById('modal-close');
+        const view3DButton = document.getElementById('view-3d-button');
+        const work3DButtonContainer = document.getElementById('work-3d-button-container');
+        const viewerCanvas = document.getElementById('viewer-canvas');
+        const viewerClose = document.getElementById('viewer-close');
+        const viewerLoader = document.getElementById('viewer-loader');
+        modal = document.getElementById('modal');
+        viewerModal = document.getElementById('viewer-modal');
 
         let currentWorkIndex = 0;
 
@@ -98,29 +110,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 dot.classList.toggle('active', dotIndex === index);
             });
 
-            [mainImage, workTitle, workDescription, imageCaption, workLinkContainer, nodeSection].forEach(el => el.style.opacity = 0);
+            [mainImage, workTitle, workDescription, imageCaption, workLinkContainer, nodeSection, work3DButtonContainer].forEach(el => el.style.opacity = 0);
 
             setTimeout(() => {
                 workTitle.textContent = work.title;
                 workDescription.innerHTML = work.description;
 
-                workLinkContainer.innerHTML = '';
-                if (work.link) {
-                    const linkEl = document.createElement('a');
-                    linkEl.href = work.link;
-                    linkEl.target = '_blank';
-                    linkEl.rel = 'noopener noreferrer';
-                    linkEl.className = 'inline-flex items-center gap-2 text-gray-300 hover:text-white transition-colors';
-                    linkEl.innerHTML = `<span class="text-lg"><u>もっと知る (Wikipedia)</u></span><img src="https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg" alt="Wikipedia Logo" width="30">`;
-                    workLinkContainer.appendChild(linkEl);
+                if (work.model != null) {
+                    view3DButton.onclick = () => openViewerModal(work.model);
+                    work3DButtonContainer.style.display = 'block';
                 }
+                else work3DButtonContainer.style.display = 'none';
 
-                if (work.nodeImage) {
-                    nodeImage.src = work.nodeImage;
-                    nodeSection.style.display = 'block';
-                } else {
-                    nodeSection.style.display = 'none';
-                }
+                workLinkContainer.innerHTML = '';
+                const linkEl = document.createElement('a');
+                linkEl.href = work.link;
+                linkEl.target = '_blank';
+                linkEl.rel = 'noopener noreferrer';
+                linkEl.className = 'inline-flex items-center gap-2 text-gray-300 hover:text-white transition-colors';
+                linkEl.innerHTML = `<span class="text-lg"><u>もっと知る (Wikipedia)</u></span><img src="https://upload.wikimedia.org/wikipedia/commons/8/80/Wikipedia-logo-v2.svg" alt="Wikipedia Logo" width="30">`;
+                workLinkContainer.appendChild(linkEl);
+
+                nodeImage.src = work.nodeImage;
+                nodeSection.style.display = 'block';
 
                 mainImage.src = work.images[0].src;
                 imageCaption.textContent = work.images[0].caption || '';
@@ -136,7 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     thumbnailContainer.appendChild(thumb);
                 });
 
-                [mainImage, workTitle, workDescription, imageCaption, workLinkContainer, nodeSection].forEach(el => el.style.opacity = 1);
+                [mainImage, workTitle, workDescription, imageCaption, workLinkContainer, nodeSection, work3DButtonContainer].forEach(el => el.style.opacity = 1);
+                work3DButtonContainer.style.opacity = 1;
             }, 300);
         }
 
@@ -151,8 +164,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 150);
         }
 
-        function showNextWork() { loadWork((currentWorkIndex + 1) % worksData.length); }
-        function showPrevWork() { loadWork((currentWorkIndex - 1 + worksData.length) % worksData.length); }
+        function showNextWork() {
+            loadWork((currentWorkIndex + 1) % worksData.length); 
+        }
+
+        function showPrevWork() { 
+            loadWork((currentWorkIndex - 1 + worksData.length) % worksData.length); 
+        }
 
         // モーダル
         function closeModal() {
@@ -169,8 +187,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         modalClose.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
+
+        modal.addEventListener('click', (e) => { 
+            if (e.target === modal) closeModal(); 
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); 
+        });
 
         modalImage.addEventListener('dblclick', function(e) {
             if (this.classList.toggle('zoomed')) {
@@ -188,6 +211,137 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 初期読み込み
         loadWork(currentWorkIndex);
+
+        // Three.jsを用いた3Dビューワー設定の準備
+        let scene, camera, renderer, modelGroup, controls;
+
+        // 初期設定
+        function initThree() {
+            // 読込
+            scene = new THREE.Scene();
+
+            // カメラ設定
+            camera = new THREE.PerspectiveCamera(
+                50, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 10;
+
+            // レンダラー設定
+            renderer = new THREE.WebGLRenderer({ canvas: viewerCanvas, antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            // ライト設定
+            const hemisphereLight = new THREE.HemisphereLight( 0xffffff, 0xbbbbbb, 0.9 );
+            scene.add(hemisphereLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 10, 7.5);
+            scene.add(directionalLight);
+
+            // モデルを保持するグループ
+            modelGroup = new THREE.Group();
+            scene.add(modelGroup);
+        }
+
+        // モデル読込
+        function loadModel(modelPath) {
+            viewerLoader.style.display = 'block';
+
+            // 既存のモデルをクリア
+            while(modelGroup.children.length > 0){ 
+                modelGroup.remove(modelGroup.children[0]); 
+            }
+
+            // マテリアル設定
+            const overrideMaterial = new THREE.MeshStandardMaterial({
+                color: 0xcccccc,
+                roughness: 0.5,
+                metalness: 0.2,
+                alpha: 1,
+                doubleSided: true,
+            });
+
+            const loader = new THREE.GLTFLoader();
+            loader.load(modelPath, (gltf) => {
+                const model = gltf.scene;
+
+                // モデルにマテリアル適用
+                model.traverse((child) => {
+                    if (child.isMesh) {
+                        child.material = overrideMaterial;
+                    }
+                });
+
+                // モデルを中央に配置しサイズを調整
+                const box = new THREE.Box3().setFromObject(model);
+                const center = box.getCenter(new THREE.Vector3());
+                const size = box.getSize(new THREE.Vector3());
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const scale = 5 / maxDim;
+
+                model.position.sub(center.multiplyScalar(scale));
+                model.scale.set(scale, scale, scale);
+
+                modelGroup.add(model);
+                viewerLoader.style.display = 'none';
+            }, undefined, (error) => {
+                console.error(error);
+                viewerLoader.textContent = 'モデルの読み込みに失敗しました。';
+            });
+        }
+
+        // 3Dビューワーの視点操作
+        function animateViewer() {
+
+            // モーダル非表示時は停止
+            if (viewerModal.classList.contains('hidden')) return; 
+
+            requestAnimationFrame(animateViewer);
+
+            // OrbitControlsを更新
+            if (controls) controls.update();
+
+            renderer.render(scene, camera);
+        }
+
+        // 3Dビューワーのモーダルを開く
+        function openViewerModal(modelPath) {
+            viewerModal.classList.remove('hidden');
+            if (!renderer) {
+                initThree();
+            }
+
+            // キャンバスの表示サイズを取得
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            // レンダラーのサイズを更新
+            renderer.setSize(width, height);
+
+            // カメラのアスペクト比を更新
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        
+            if (!controls) {
+                // 初回のみ初期化
+                controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true; // 滑らかに動くようにする
+                controls.dampingFactor = 0.05;
+            } else {
+                controls.reset(); // 2回目以降はカメラ位置をリセット
+            }
+            modelGroup.rotation.set(0, 0, 0); // モデルの回転をリセット
+            
+            loadModel(modelPath);
+            animateViewer();
+        }
+
+        // 3Dビューワーのモーダルを閉じる
+        function closeViewerModal() {
+            viewerModal.classList.add('hidden');
+            viewerLoader.textContent = '読み込み中...';
+        }
+
+        viewerClose.addEventListener('click', closeViewerModal);
     }
 
     // 背景アニメーション
@@ -279,6 +433,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // クリックで波を生成
     window.addEventListener('click', (e) => {
+        const isModalOpen = modal && !modal.classList.contains('hidden');
+        const isViewerModalOpen = viewerModal && !viewerModal.classList.contains('hidden');
+        if (isModalOpen || isViewerModalOpen) return;
+
         ripples.push({
             x: e.clientX,
             y: e.clientY,
