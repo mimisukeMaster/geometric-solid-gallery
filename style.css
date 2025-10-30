@@ -10,7 +10,7 @@ body {
     flex-direction: column;
 }
 
-main#portfolio {
+main {
     flex-grow: 1;
 }
 
