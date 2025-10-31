@@ -168,7 +168,7 @@ header::after {
 
 .view-3d-button svg {
     stroke: #111; 
-    transition: stroke 0.3s ease;
+    transition: stroke 0.3s ease, transform 0.8s ease;
 }
 
 .view-3d-button:hover {
@@ -180,6 +180,7 @@ header::after {
 
 .view-3d-button:hover svg {
     stroke: #f3d773;
+    transform: rotate(360deg);
 }
 
 #viewer-canvas {
